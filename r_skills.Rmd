@@ -25,7 +25,6 @@ library(tidyverse)
 library(janitor)
 library(plotly)
 library(p8105.datasets)
-library(haven)
 library(kableExtra)
 
 
