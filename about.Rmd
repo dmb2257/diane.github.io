@@ -1,6 +1,119 @@
 ---
-title: "about"
-author: "Diane Benites"
-date: "2026-04-02"
-output: html_document
+title: <center> About Me <center>
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    
 ---
+
+
+
+---
+
+
+# Education
+
+### Columbia University Mailman School of Public Health\
+
+Master of Public Health, *Sociomedical Sciences*\
+
+Certificate, *Applied Biostatistics and Public Health Data Science*\
+
+  - Expected graduation: May 2026
+  
+  - Relevant Coursework: Relational Databases and SQL Programming, Data Science I, Applied Regression I & II, Statistical Computing with SAS, Analysis of Categorical Data, Evaluation of Health Programs, Research Methods and Applications.
+  
+### Syracuse University
+Bachelor of Arts, *Biology* \
+
+Minor, *Psychology*\
+
+  - Graduation: May 2023
+
+  - Cum laude, Dean’s list   
+  
+  - Remembrance Scholarship. Archbold Day Scholarship. Beta Beta Beta Biological Honors Society.  
+
+---
+
+# Skills
+
+- Languages: Fluent in English and Spanish  
+
+- Programming Languages: R, SQL, SAS
+
+- Additional Technical Skills: Canva, MS Office (Excel, Powerpoint, Outlook), Google Drive (Sheets, Slides, Docs)
+
+
+---
+
+# Professional Experience
+
+### NewYork-Presbyterian
+*Choosing Healthy and Active Lifestyles for Kids (CHALK) Intern*\
+
+- Supported the program evaluation of built environment activations implemented in Northern Manhattan by contributing to the data collection of  physical activity levels, using the MOHAWk tool.
+
+- Used Excel to digitize program evaluation data, produce visualizations and develop summary tables. 
+
+- Implemented community programming at CLOTH Open Streets, including arts, crafts, and physical activity for children.\
+
+
+### Summit Health Urgent Care
+*Medical Scribe*\
+
+- Collaborated with patients, providers, and staff to provide detail-oriented documentation for more than 30 charts daily, using Athenahealth EHR in accordance with HIPAA.  
+
+- Demonstrated excellent attention to detail, organization and time management to collect medical history, chief complaints, vital signs, and assist with more than 200 rapid point-of-care tests. \
+
+
+### Syracuse University Ambulance
+*Emergency Medical Technician*\  
+
+- Responded to emergency calls, provided basic life support, documented patient charts, and completed transfer of care to local emergency departments.
+
+- Completed thorough inspection of the ambulance condition and recorded inventory at the beginning of every shift.\ 
+ 
+
+### Comprehensive Cardiac Care
+
+*Medical Assistant and Office Receptionist*\
+
+- Collected patient intake for up to 40 appointments daily, including medical history and vital signs. 
+
+- Completed administrative duties such as scheduling appointments, completing patient check-in, filing documents, and verifying insurance information.\
+
+---
+
+
+# Campus Involvement
+
+### The Food Pantry at Columbia
+*Volunteer*\
+
+- Prepared and distributed food pantry orders to clients in the Columbia University community.
+
+### Syracuse University Department of Physics
+*Laboratory Coach*\
+
+- Provided classroom support to the teaching assistant in *General Physics I Laboratory*. 
+
+- Assisted more than 15 students with the understanding of course material and usage of equipment.
+
+### Center for Learning and Student Success (CLASS)
+*Academic Coach*\
+
+- Discussed study techniques, time management, and active learning skills with first-year students at Syracuse University.
+
+### Syracuse University Chemistry Department
+*Chemistry Learning Assistant*\
+
+- Co-led weekly small group review sessions for *General Chemistry* students.
+
+- Guided group practice problems, answered student questions, and reviewed course material for upcoming exams. 
+
+
+---
+
+  
