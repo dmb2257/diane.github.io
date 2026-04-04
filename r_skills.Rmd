@@ -1,6 +1,309 @@
 ---
-title: "r_skills"
-author: "Diane Benites"
-date: "2026-04-02"
-output: html_document
+title: <center>Skills with R<center>
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
 ---
+
+My Certificate in Applied Biostatistics and Public Health Data Science has provided me with a strong foundation in R, SAS, and SQL! This page demonstrates examples of my skills with R, based on a class assignment I produced in *Data Science I*. 
+
+--- 
+
+# New York City Restaurant Inspections Results\
+
+The New York City Department of Health and Mental Hygiene (DOHMH) conducts annual restaurant inspections. This data is publicly available at [NYC Open Data](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j/about_data) and is updated regularly. For the following products I used the *DOHMH New York City Restaurant Inspection Results*. 
+
+The dataset I used was accessed in October 2017 and I imported it from the course, *Data Science I*. I filtered the data to only include inspections performed in 2015 and those that received the inspection grades *A*, *B*, or *C*. \
+
+```{r message=FALSE, warning=FALSE}
+
+## Loads necessary packages
+
+library(tidyverse)
+library(janitor)
+library(plotly)
+library(p8105.datasets)
+library(haven)
+library(kableExtra)
+
+
+## Initial cleaning to snake case 
+
+## Selects columns of interest, filters only inspection data from 2015
+
+rest_inspec_df=
+  rest_inspec|>
+  janitor::clean_names()|>
+  drop_na(grade)|>
+  filter(str_detect(inspection_date, "2015"))|>
+  filter(grade != "P")|>
+  select(-census_tract, -community_board, -council_district, -bin, -bbl, -nta, -action, -violation_description, -building, -street, -phone)
+
+
+```
+
+## Exploratory Data Analysis {.tabset}
+
+The following tables summarize key characteristics of the dataset, stratified by borough. I identified the number of restaurants inspected, the frequency of inspection grades, and the number of unique cuisine types in each borough.
+
+### **Restaurant Count**
+
+```{r message=FALSE, warning=FALSE, results = 'asis'}
+## Creates table for the number of unique restaurants per borough
+
+tab2=
+rest_inspec_df|>
+  group_by(boro)|>
+  summarize(n = n_distinct(camis))
+
+
+tab2|>
+  arrange(desc(n))|>
+  rename("Borough" = boro)|>
+  rename("Total" = n)|>
+  kable(
+    format= "html",
+    caption = "Number of Restaurants per Borough",
+    align = c("r", "r", "r"))|>
+  kable_styling(
+    bootstrap_options = c("striped", "hover"), full_width = FALSE
+  )
+
+```
+
+### **Inspection Grades**
+
+```{r message=FALSE, warning=FALSE, results = 'asis'}
+
+## Creates table for the frequency of each restaurant inspection grade per borough
+
+tab3= 
+rest_inspec_df|>
+  group_by(grade, boro)|>
+  summarize("Grade Count" = n_distinct(camis))|>
+  pivot_wider(
+    names_from = grade,
+    values_from = "Grade Count"
+  )
+
+tab4=
+  merge(tab3, tab2)
+
+
+tab4|>
+  rename("Borough" = boro)|>
+  rename("Total" = n)|>
+  kable(
+    format= "html",
+    caption = "Restaurant Inspection Grades per Borough",
+    align = c("r", "r", "r"))|>
+  kable_styling(
+    bootstrap_options = c("striped", "hover"), full_width = FALSE
+  )
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+## Creates bar graph of the frequency of restaurant inspection grades per borough
+
+tab5 =
+tab3|>
+  pivot_longer(
+    cols = A:C,
+    names_to = "grade",
+    values_to = "grade_val"
+  )
+
+
+ggplot(data = tab5, aes(x=boro, y= grade_val, fill = grade))+
+  geom_bar(stat = "identity")+
+  scale_fill_hue(name="Inspection Grade")+
+  scale_fill_brewer(palette = "Set3")+
+  xlab("Borough")+
+  ylab("Frequency")+
+  ggtitle("Frequency of Restaurant Inspection Grades per Borough")
+
+
+
+
+```
+
+
+### **Cuisine Frequency**
+
+```{r message=FALSE, warning=FALSE, results = 'asis'}
+## Creates a new table to group the data by restaurant (camis) and borough. Then identifies the cuisine type of the restaurant.
+
+tab7=
+rest_inspec_df|>
+  group_by(boro, camis)|>
+  count("cuisine" = cuisine_description)
+
+## Table of the number of unique cuisine types per borough
+
+tab7|>
+  group_by(boro)|>
+  summarize(n = n_distinct(cuisine))|>
+  arrange(desc(n))|>
+  rename("Borough" = boro)|>
+  rename("Cuisine Types" = n)|>
+  kable(
+    format= "html",
+    caption = "Number of Distinct Cuisine Types per Borough",
+    align = c("r", "r", "r"))|>
+  kable_styling(
+    bootstrap_options = c("striped", "hover"), full_width = FALSE
+  )
+
+```
+
+
+```{r message=FALSE, warning=FALSE, results = 'asis'}
+
+## Creates a table for most frequent cuisine types in the Bronx
+
+tab8=
+tab7|>
+  group_by(boro)|>
+  count(cuisine)|>
+  filter(boro %in% c("Bronx"))|>
+  arrange(desc(n))|>
+  filter(min_rank(desc(n))<2)
+
+
+## Creates a table for most frequent cuisine types in Brooklyn
+tab9=
+tab7|>
+  group_by(boro)|>
+  count(cuisine)|>
+  filter(boro %in% c("Brooklyn"))|>
+  arrange(desc(n))|>
+  filter(min_rank(desc(n))<2)
+
+
+
+## Creates a table for most frequent cuisine types in Queens
+tab10=
+tab7|>
+  group_by(boro)|>
+  count(cuisine)|>
+  filter(boro %in% c("Queens"))|>
+  arrange(desc(n))|>
+  filter(min_rank(desc(n))<2)
+  
+
+## Creates a table for most frequent cuisine types in Manhattan
+tab11=
+tab7|>
+  group_by(boro)|>
+  count(cuisine)|>
+  filter(boro %in% c("Manhattan"))|>
+  arrange(desc(n))|>
+    filter(min_rank(desc(n))<2)
+
+
+## Creates a table for most frequent cuisine types in Staten Island
+tab12=
+tab7|>
+  group_by(boro)|>
+  count(cuisine)|>
+  filter(boro %in% c("Staten Island"))|>
+  arrange(desc(n))|>
+  filter(min_rank(desc(n))<2)
+
+
+## Joins the tables for each borough
+tab13=
+  full_join(tab8, tab9)
+
+tab14=
+  full_join(tab10, tab11)
+
+tab15=
+  full_join(tab13, tab14)
+
+tab16=
+  full_join(tab15, tab12)
+
+tab16|>
+  rename("Borough" = boro)|>
+  rename("Number of Restaurants" = n)|>
+  rename("Cuisine Type" = cuisine)|>
+  kable(
+    format= "html",
+    caption = "Most Frequent Cuisine Types per Borough",
+    align = c("r", "r", "r"))|>
+  kable_styling(
+    bootstrap_options = c("striped", "hover"), full_width = FALSE
+  )
+
+```
+
+---
+
+## Interactive Visualizations {.tabset}
+
+I produced the following products using *Plot.ly*! These graphs visualize the restaurant locations, frequency of letter grades, and distribution of inspection scores. To view these plots stimultaneously, visit the [Sample Dashboard](flexdashboard.html)\ page.
+
+
+### **Scatterplots**
+```{r message=FALSE, warning=FALSE}
+
+## Creates plotly scatterplot of restaurant locations using coordinates
+
+rest_inspec_df |>
+  drop_na(latitude, longitude)|>
+  filter(latitude !="0")|>
+  group_by(camis)|>
+  mutate(
+    text_label = str_c("Restaurant Identifier: ", camis, "\nName of Business: ", dba,
+      "\nType of Cuisine: ", cuisine_description)
+    )|>
+  plot_ly(
+    x = ~latitude, y = ~longitude, 
+    text = ~text_label, color = ~boro, 
+    type = "scatter", colors = "Dark2", mode = "markers", alpha = 0.5)|>
+  layout(title = "2015 Inspected Restaurant Locations")
+```
+
+This is a scatter plot of NYC restaurant locations. The latitude is on the x-axis and the longitude is on the y-axis. As indicated in the legend, each borough is represented by a distinct color.
+
+
+
+
+### **Bar Charts**
+```{r message=FALSE, warning=FALSE}
+## Creates plotly bar chart of inspection grades by borough
+
+tab3|>
+    pivot_longer(
+    cols = A:C,
+    names_to = "grade",
+    values_to = "count"
+  )|>
+  plot_ly(x = ~grade, y = ~count, color = ~boro, type = "bar", colors = "Dark2")|>
+  layout(title = "2015 Inspection Grades by Borough", xaxis = list(title = "Inspection Grades"), yaxis = list(title = "Frequency"))
+
+```
+
+This is a bar chart of the distribution of NYC restaurant inspection grades by borough. The inspection grades are on the x-axis and the frequency of each grade is on the y-axis. The bar colors indicate the respective boroughs, as indicated in the legend on the right. 
+
+
+### **Boxplots**
+```{r message=FALSE, warning=FALSE}
+## Creates boxplot of inspection scores by grade and grouped by borough
+
+rest_inspec_df |>
+  plot_ly(x = ~grade, y = ~score,
+         color = ~boro, type = "box", colors = "Dark2")|>
+    layout(boxmode = "group", title = "Distribution of 2015 Inspection Scores",
+         xaxis = list(title ="Inspection Grade"),
+         yaxis = list(title = "Score"))
+
+```
+
+This is a boxplot of the distribution of NYC restaurant inspection scores in 2015. Throughout restaurant inspections, scores were based on the presence of regulation violations and their severity. These scores were used to determine the inspection grade, with a higher score corresponding to a lower letter grade.

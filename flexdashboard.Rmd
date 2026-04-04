@@ -1,6 +1,115 @@
 ---
-title: "flexdashboard"
-author: "Diane Benites"
-date: "2026-04-02"
-output: html_document
+title: "Sample Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    source: embed
+    runtime: shiny
 ---
+
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(p8105.datasets)
+library(plotly)
+library(flexdashboard)
+
+
+
+## Initial cleaning to snake case 
+
+## Selects columns of interest, filters only inspection data from 2015
+
+rest_inspec_df=
+  rest_inspec|>
+  janitor::clean_names()|>
+  drop_na(grade)|>
+  filter(str_detect(inspection_date, "2015"))|>
+  filter(grade != "P")|>
+  select(-census_tract, -community_board, -council_district, -bin, -bbl, -nta, -action, -violation_description, -building, -street, -phone)
+```
+
+Row {data-height=225}
+-----------------------------------------------------------------------
+
+### About
+
+The following products used the DOHMH New York City Restaurant Inspection Results. The data I used was accessed in October 2017, and I imported it from the course *Data Science I*. I filtered the data to only include inspections performed in 2015 and those that received the inspection grades A, B, or C. The products on this dashboard were created using Plot.ly! These graphs visualize the restaurant locations, frequency of letter grades, and distribution of inspection scores.
+
+**Figure 1.**
+This is a scatter plot of NYC restaurant locations. The latitude is on the x-axis and the longitude is on the y-axis. As indicated in the legend, each borough is represented by a distinct color.
+
+**Figure 2.**
+This is a bar chart of the distribution of NYC restaurant inspection grades by borough. The inspection grades are on the x-axis and the frequency of each grade is on the y-axis. The bar colors indicate the respective boroughs, as indicated in the legend on the right.
+
+**Figure 3.**
+This is a boxplot of the distribution of NYC restaurant inspection scores in 2015. Throughout restaurant inspections, scores were based on the presence of regulation violations and their severity. These scores were used to determine the inspection grade, with a higher score corresponding to a lower letter grade.
+
+
+Row {data-height=400}
+-----------------------------------------------------------------------
+
+
+### Figure 1.
+
+```{r}
+rest_inspec_df |>
+  drop_na(latitude, longitude)|>
+  filter(latitude !="0")|>
+  group_by(camis)|>
+  mutate(
+    text_label = str_c("Restaurant Identifier: ", camis, "\nName of Business: ", dba,
+      "\nType of Cuisine: ", cuisine_description)
+    )|>
+  plot_ly(
+    x = ~latitude, y = ~longitude, 
+    text = ~text_label, color = ~boro, 
+    type = "scatter", colors = "Dark2", mode = "markers", alpha = 0.5)|>
+  layout(title = "Restaurant Locations")
+```
+
+
+### Figure 2.
+
+
+```{r}
+tab3= 
+rest_inspec_df|>
+  group_by(grade, boro)|>
+  summarize("Grade Count" = n_distinct(camis))|>
+  pivot_wider(
+    names_from = grade,
+    values_from = "Grade Count"
+  )
+
+tab3|>
+    pivot_longer(
+    cols = A:C,
+    names_to = "grade",
+    values_to = "count"
+  )|>
+  plot_ly(x = ~grade, y = ~count, color = ~boro, type = "bar", colors = "Dark2")|>
+  layout(title = "Inspection Grades by Borough", xaxis = list(title = "Inspection Grades"), yaxis = list(title = "Frequency"))
+```
+
+
+### Figure 3.
+
+
+```{r}
+
+rest_inspec_df |>
+  plot_ly(x = ~grade, y = ~score,
+         color = ~boro, type = "box", colors = "Dark2")|>
+    layout(boxmode = "group", title = "Distribution of Inspection Scores",
+         xaxis = list(title ="Inspection Grade"),
+         yaxis = list(title = "Score"))
+
+```
+
+
+
+
+
