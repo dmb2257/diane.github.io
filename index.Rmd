@@ -6,15 +6,17 @@ output:
     toc_float: true
 ---
 
+<center>
+MPH Candidate at Columbia University Mailman School of Public Health
+</center>
+
 ---
 
 <center>
 <img src="IMG_6043.JPG" style= "width:40%" class="center">
 </center>
 
-<center>
-MPH Candidate at Columbia University Mailman School of Public Health
-</center>
+
 
 ---
 
@@ -27,7 +29,7 @@ My name is Diane Benites and I coded this website using R Markdown! In May, 2026
 
 - [About Me](about.html)\
 
-- [Skills with R](r_skills.html)\
+- [Data Skills with R](r_skills.html)\
 
 - [Sample Dashboard](flexdashboard.html)\
 

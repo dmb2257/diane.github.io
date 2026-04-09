@@ -5,7 +5,7 @@ navbar:
   right: 
       - text: "About Me"
         href: about.html
-      - text: "Skills with R"
+      - text: "Data Skills with R"
         href: r_skills.html  
       - text: "Sample Dashboard"
         href: flexdashboard.html

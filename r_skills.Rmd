@@ -1,5 +1,5 @@
 ---
-title: <center>Skills with R<center>
+title: <center>Data Skills with R<center>
 output: 
   html_document:
     toc: true
