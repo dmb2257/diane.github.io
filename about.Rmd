@@ -20,7 +20,7 @@ Master of Public Health, *Sociomedical Sciences*\
 
 Certificate, *Applied Biostatistics and Public Health Data Science*\
 
-  - Expected graduation: May 2026
+  - Graduation: May 2026
   
   - Relevant Coursework: Social and Economic Determinants of Health, Chronic Disease and Community Health, Relational Databases and SQL Programming, Data Science I, Applied Regression I & II, Evaluation of Health Programs.
   
@@ -53,7 +53,7 @@ Minor, *Psychology*\
 
 - Supported the program evaluation of built environment activations implemented in Northern Manhattan by contributing to the data collection of  physical activity levels, using the MOHAWk tool.
 
-- Demonstrated high attention to detail and strong organizational skills in Microsoft Excel to digitize program evaluation data, produce visualizations and develop summary tables. 
+- Demonstrated high attention to detail and used Microsoft Excel to digitize program evaluation data, produce visualizations and develop summary tables. 
 
 - Assisted in the implementation of community programming at CLOTH Open Streets, including food demonstrations, water distribution, crafts, and physical activity for children.\
 
@@ -109,7 +109,7 @@ Minor, *Psychology*\
 
 - Co-led weekly small group review sessions for *General Chemistry* students.
 
-- Guided group practice problems, answered student questions, and reviewed course material for upcoming exams. 
+- Guided group practice problems, answered student questions, and reviewed course material. 
 
 
 ---
